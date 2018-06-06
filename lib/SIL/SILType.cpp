@@ -442,14 +442,8 @@ bool SILModuleConventions::isPassedIndirectlyInSIL(SILType type, SILModule &M) {
   return false;
 }
 
-
-bool SILFunctionType::isNoReturnFunction() const {
-  for (unsigned i = 0, e = getNumResults(); i < e; ++i) {
-    if (getResults()[i].getType()->isUninhabited())
-      return true;
-  }
-
-  return false;
+bool SILFunctionType::isNoReturnFunction() {
+  return getDirectFormalResultsType().getASTType()->isUninhabited();
 }
 
 #ifndef NDEBUG
